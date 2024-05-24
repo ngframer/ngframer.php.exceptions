@@ -3,7 +3,7 @@ namespace NGFramer\NGFramerPHPSQLBuilder;
 
 use Exception;
 
-class SqlException extends Exception
+class SqlBuilderException extends Exception
 {
     protected $statusCode;
     protected $errorDetails;
