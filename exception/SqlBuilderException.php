@@ -1,5 +1,5 @@
 <?php
-namespace NGFramer\NGFramerPHPSQLBuilder;
+namespace NGFramer\NGFramerPHPException\exception;
 
 use Exception;
 
@@ -19,19 +19,19 @@ class SqlBuilderException extends Exception
     }
 
   
-    public function getStatusCode()
+    public function getStatusCode(): int
     {
         return $this->statusCode;
     }
 
   
-    public function getErrorDetails()
+    public function getErrorDetails(): array
     {
         return $this->errorDetails;
     }
 
   
-    public function getSource(): mixed
+    public function getSource(): ?string
     {
         return $this->source;
     }
