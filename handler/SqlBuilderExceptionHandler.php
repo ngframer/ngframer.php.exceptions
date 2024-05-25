@@ -15,7 +15,7 @@ class SqlBuilderExceptionHandler
         $source = ($exception instanceof SqlBuilderException) ? $exception->getSource() : 'unidentified';
 
         http_response_code($statusCode);
-        echo json_encode([
+        echo json_encode(
             [
                 'status' => 'error',
                 'status_code' => $statusCode,
@@ -26,7 +26,7 @@ class SqlBuilderExceptionHandler
                         'errorMessage' => $errorMessage,
                     ]
             ]
-        ]);
+        );
         exit;
     }
 }
