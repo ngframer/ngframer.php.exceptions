@@ -12,21 +12,50 @@ class SqlBuilderExceptionHandler
         $errorMessage = $exception->getMessage();
         $statusCode = ($exception instanceof SqlBuilderException) ? $exception->getStatusCode() : 500;
         $errorDetails = ($exception instanceof SqlBuilderException) ? $exception->getErrorDetails() : [];
-        $source = ($exception instanceof SqlBuilderException) ? $exception->getSource() : 'unidentified';
+        $source = self::getSource();
 
         http_response_code($statusCode);
         echo json_encode(
             [
-                'status' => 'error',
+                'success' => false,
                 'status_code' => $statusCode,
                 'source' => $source,
                 'response' =>
                     [
                         'errorCode' => $errorDetails['errorCode'] ?? 'UNDEFINED',
+                        'errorType' => $errorDetails['errorType'] ?? 'UNDEFINED',
                         'errorMessage' => $errorMessage,
                     ]
             ]
         );
         exit;
     }
+
+    public static function getSource(): array
+    {
+        // Get the trace.
+        $trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 2);
+
+        // Check if called from within a class method
+        $info = $trace[1];
+        $namespace = '';
+        $class = $info['class'] ?? '';
+        $function = $info['function'] ?? '';
+        $line = $trace[0]['line'] ?? '';
+
+        // Extract namespace if class name includes it
+        if ($class) {
+            $namespaceParts = explode('\\', $class);
+            $class = array_pop($namespaceParts);
+            $namespace = implode('\\', $namespaceParts);
+        }
+
+        return [
+            'namespace' => $namespace,
+            'class' => $class,
+            'function' => $function,
+            'line' => $line
+        ];
+    }
+
 }
