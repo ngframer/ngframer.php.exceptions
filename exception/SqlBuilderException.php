@@ -10,12 +10,11 @@ class SqlBuilderException extends Exception
     protected $source;
 
   
-    public function __construct($message, $statusCode = 500, $errorDetails = [], $source = null)
+    public function __construct($message, $statusCode = 500, $errorDetails = [])
     {
         parent::__construct($message);
         $this->statusCode = $statusCode;
         $this->errorDetails = $errorDetails;
-        $this->source = $source;
     }
 
   
