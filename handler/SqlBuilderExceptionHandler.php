@@ -22,8 +22,8 @@ class SqlBuilderExceptionHandler
                 'source' => $source,
                 'response' =>
                     [
-                        'error_code' => $errorDetails['error_code'] ?? $errorDetails[0] ?? 'UNDEFINED',
-                        'error_type' => $errorDetails['error_type'] ?? $errorDetails[1] ?? 'UNDEFINED',
+                        'error_type' => $errorDetails['error_type'] ?? $errorDetails[0] ?? 'UNDEFINED',
+                        'error_code' => $errorDetails['error_code'] ?? $errorDetails[1] ?? 'UNDEFINED',
                         'error_message' => $errorMessage,
                     ]
             ]
