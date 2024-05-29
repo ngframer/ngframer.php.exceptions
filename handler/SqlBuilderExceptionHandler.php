@@ -48,11 +48,11 @@ class SqlBuilderExceptionHandler
         foreach ($traces as $trace) {
             // Start joining the trace elements.
             $joiningString = $trace['type'] ?? ">>";
-            $currentTrace = $trace['file'] . $joiningString ?? '';
-            $currentTrace .= $trace['class'] . $joiningString ?? '';
-            $currentTrace .= $trace['object'] . $joiningString ?? '';
-            $currentTrace .= $trace['function'] . $joiningString ?? '';
-            $currentTrace .= $trace['line'] . $joiningString ?? '';
+            $currentTrace = isset($trace['file']) ? $trace['file'] . $joiningString : '';
+            $currentTrace .= isset($trace['class']) ? $trace['class'] . $joiningString : '';
+            $currentTrace .= isset($trace['object']) ? $trace['object'] . $joiningString : '';
+            $currentTrace .= isset($trace['function']) ? $trace['function'] . $joiningString : '';
+            $currentTrace .= isset($trace['line']) ? $trace['line'] . $joiningString : '';
 
             // Add the current trace to the trace map.
             $traceMap[] = $currentTrace;
