@@ -6,6 +6,6 @@ use Exception;
 
 class ServerErrorException extends Exception
 {
-    protected $code = 403;
+    protected $code = 500;
     protected $message = "Server Error";
 }
