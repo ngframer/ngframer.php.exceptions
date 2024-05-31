@@ -1,6 +1,6 @@
 <?php
 
-namespace NGFramer\NGFramerPHPException\exception;
+namespace NGFramer\NGFramerPHPExceptions\exceptions;
 
 use Error;
 

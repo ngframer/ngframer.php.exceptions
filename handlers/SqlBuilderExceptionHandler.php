@@ -1,9 +1,9 @@
 <?php
 
-namespace NGFramer\NGFramerPHPException\handler;
+namespace NGFramer\NGFramerPHPExceptions\handlers;
 
 use Throwable;
-use NGFramer\NGFramerPHPException\exception\SqlBuilderException;
+use NGFramer\NGFramerPHPExceptions\exceptions\SqlBuilderException;
 
 class SqlBuilderExceptionHandler
 {

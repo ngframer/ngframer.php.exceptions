@@ -1,10 +1,10 @@
 {
-  "name": "ngframer/ngframer.php.exception",
+  "name": "ngframer/ngframer.php.exceptions",
   "description": "Exception and Exception handler for all the NGFramer projects and mostly used Exceptions and Exception handlers.",
   "license": "MIT",
   "autoload": {
     "psr-4": {
-      "NGFramer\\NGFramerPHPException\\": ""
+      "NGFramer\\NGFramerPHPExceptions\\": ""
     },
     "classmap": [],
     "psr-0": {},
