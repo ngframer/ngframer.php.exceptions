@@ -8,6 +8,7 @@ class NotFoundException extends _BaseException
 {
     // Updated the values of this class.
 	protected $message = "The content you are looking for could not be found.";
+    // TODO: Change the code based on the documentation in the upcoming time.
 	protected $code = 0;
 	protected int $statusCode = 404;
     protected array $details = [];
