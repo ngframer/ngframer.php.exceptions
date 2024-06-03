@@ -2,10 +2,13 @@
 
 namespace NGFramer\NGFramerPHPExceptions\exceptions;
 
-use Exception;
+use NGFramer\NGFramerPHPExceptions\exceptions\supportive\_BaseException;
 
-class NotFoundException extends Exception
+class NotFoundException extends _BaseException
 {
-	protected $code = 404;
+    // Updated the values of this class.
 	protected $message = "The content you are looking for could not be found.";
+	protected $code = 0;
+	protected int $statusCode = 404;
+    protected array $details = [];
 }
