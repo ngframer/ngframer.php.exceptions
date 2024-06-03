@@ -1,37 +1,20 @@
 <?php
 namespace NGFramer\NGFramerPHPExceptions\exceptions;
 
-use Exception;
+use NGFramer\NGFramerPHPExceptions\exceptions\supportive\_BaseException;
 
-class SqlBuilderException extends Exception
+class SqlBuilderException extends _BaseException
 {
-    protected $statusCode;
-    protected $errorDetails;
-
-  
-    public function __construct($message, $statusCode = 500, $errorDetails = [])
+    // Constructor of this class.
+    public function __construct($message, $code = 0, int $statusCode = 500, array $details = [])
     {
-        // Call the parent constructor for exception.
-        parent::__construct($message);
-
-        // Get the status code and update it.
-        $this->statusCode = $statusCode;
-
+        // Firstly we go for backtrace.
         // Get the error details and update it.
         // We check if it has been set, as this class is also used by another class, and they can pass the backtrace directly.
-        $errorDetails['backtrace'] = $errorDetails['backtrace'] ?? debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
-        $this->errorDetails = $errorDetails;
-    }
+        $details['backtrace'] = $details['backtrace'] ?? debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
 
-  
-    public function getStatusCode(): int
-    {
-        return $this->statusCode;
-    }
+        // Call the parent constructor for exception.
+        parent::__construct($message, $code, $statusCode, $details);
 
-  
-    public function getErrorDetails(): array
-    {
-        return $this->errorDetails;
     }
 }
