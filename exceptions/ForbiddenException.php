@@ -2,11 +2,14 @@
 
 namespace NGFramer\NGFramerPHPExceptions\exceptions;
 
-use Exception;
+use NGFramer\NGFramerPHPExceptions\exceptions\supportive\_BaseException;
 
-class ForbiddenException extends Exception
+class ForbiddenException extends _BaseException
 {
-    protected $code = 403;
+    // Updated the values of this class.
     protected $message = "Permission denied. You don't have permission to access this page.";
-
+    // TODO: Change the code based on the documentation in the upcoming time.
+    protected $code = 0;
+    protected int $statusCode = 403;
+    protected array $details = [];
 }
