@@ -13,7 +13,6 @@ class ApiException extends _BaseException
         // Get the error details and update it.
         // We check if it has been set, as this class is also used by another class, and they can pass the backtrace directly.
         $details['backtrace'] = $details['backtrace'] ?? debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
-        $this->details = $details;
 
         // Call the parent constructor for exception.
         parent::__construct($message, $code, $statusCode, $details);
