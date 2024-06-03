@@ -2,41 +2,48 @@
 
 namespace NGFramer\NGFramerPHPExceptions\handlers;
 
-use Throwable;
 use NGFramer\NGFramerPHPExceptions\exceptions\SqlBuilderException;
 use NGFramer\NGFramerPHPExceptions\handlers\supportive\SourceTrait;
+use Throwable;
 
 class SqlBuilderExceptionHandler
 {
-    // Traits used in this class.
+    // Traits for the SqlBuilderExceptionHandler.
     use SourceTrait;
 
-
-    // Main handler function for the SqlBuilderException.
-    public static function handle(Throwable $exception)
+    // Handle the exception, handle function.
+    public static function handle(Throwable $exception): void
     {
-        // Get the message, statusCode, and also the errorDetails.
-        $errorMessage = $exception->getMessage();
+        // Get the message, statusCode, and also the details.
+        $message = $exception->getMessage();
+        $code = $exception->getCode();
         $statusCode = ($exception instanceof SqlBuilderException) ? $exception->getStatusCode() : 500;
-        $errorDetails = ($exception instanceof SqlBuilderException) ? $exception->getErrorDetails() : [];
+        $details = ($exception instanceof SqlBuilderException) ? $exception->getDetails() : [];
 
         // Use the passed backtrace if available.
-        $source = isset($errorDetails['backtrace']) ? self::getSource($errorDetails['backtrace']) : null;
+        $source = isset($details['backtrace']) ? self::getSource($details['backtrace']) : null;
 
-        http_response_code($statusCode);
-        echo json_encode(
-            [
-                'success' => false,
-                'status_code' => $statusCode,
-                'response' =>
-                    [
-                        'error_type' => $errorDetails['error_type'] ?? $errorDetails[0] ?? 'UNDEFINED',
-                        'error_code' => $errorDetails['error_code'] ?? $errorDetails[1] ?? 'UNDEFINED',
-                        'error_message' => $errorMessage,
-                    ],
-                'source' => $source
+        // Define the response to throw as method of error handling.
+        $response = [
+            'success' => false,
+            'status_code' => $statusCode,
+            'response' => [
+                'error_type' => $details['error_type'] ?? $details[0] ?? 'UNDEFINED',
+                'error_code' => $details['error_code'] ?? $details[1] ?? 'UNDEFINED',
+                'error_message' => $message,
             ]
-        );
+        ];
+
+        // If source is available, add it to the response.
+        if (APPMODE === 'development') {
+            $response['source'] = $source;
+        }
+
+        // Set the status code and echo the response.
+        http_response_code($statusCode);
+        echo json_encode($response);
+
+        // Exit the application.
         exit;
     }
 }
