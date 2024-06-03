@@ -14,8 +14,8 @@ class _BaseException extends Exception
     // Properties of the exception.
     protected $message;
     protected $code;
-    protected $statusCode;
-    protected $details;
+    protected int $statusCode;
+    protected array $details;
 
 
     // Constructor of the exception.
