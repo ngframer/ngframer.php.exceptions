@@ -6,20 +6,26 @@ use Error;
 
 class SqlBuilderError extends Error
 {
-    public static function convertToException(int $errorCode, string $errorMessage, string $errorFile, int $errorLine): void
+    public static function convertToException($message, $code, string $file, int $line): void
     {
         // Error type and code defined.
-        $errorDetails['error_type'] = error_get_last()['type'] ?? 'UNDEFINED';
-        $errorDetails['error_code'] = $errorCode;
+        $details['error_type'] = error_get_last()['type'] ?? 'UNDEFINED';
 
         // Error file and line defined for debugging.
-        $errorDetails['file'] = $errorFile;
-        $errorDetails['line'] = $errorLine;
+        $details['error_file'] = $file;
+        $details['error_line'] = $line;
 
         // Error backtrace defined for debugging.
-        $errorDetails['backtrace'] = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
+        $details['backtrace'] = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
 
         // Throw the exception (SqlBuilderException).
-        throw new SqlBuilderException($errorMessage, 500, $errorDetails);
+        throw new SqlBuilderException($message, $code, 500, $details);
     }
 }
+
+// How to use this convert to exception to convert error to exception.
+// The below line of code, converts the error to exception.
+// Use where necessary or include in autoloader to load everywhere.
+
+// ================================================================>
+// set_error_handler([SqlBuilderError::class, 'convertToException']);
