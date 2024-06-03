@@ -11,6 +11,7 @@ class SqlBuilderExceptionHandler
     // Traits for the SqlBuilderExceptionHandler.
     use SourceTrait;
 
+
     // Handle the exception, handle function.
     public static function handle(Throwable $exception): void
     {
@@ -28,9 +29,9 @@ class SqlBuilderExceptionHandler
             'success' => false,
             'status_code' => $statusCode,
             'response' => [
-                'error_type' => $details['error_type'] ?? $details[0] ?? 'UNDEFINED',
-                'error_code' => $details['error_code'] ?? $details[1] ?? 'UNDEFINED',
                 'error_message' => $message,
+                'error_code' => $code,
+                'error_type' => $details['error_type'] ?? $details[0] ?? 'UNDEFINED',
             ]
         ];
 
