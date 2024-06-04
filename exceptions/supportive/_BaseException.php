@@ -10,7 +10,6 @@ abstract class _BaseException extends Exception
     // Traits to use in this class.
     use StatusCodeTrait;
     use DetailsTrait;
-    use PreviousTrait;
 
 
     // Properties of the exception.
