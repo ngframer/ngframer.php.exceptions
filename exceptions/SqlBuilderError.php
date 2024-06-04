@@ -6,7 +6,7 @@ use Error;
 
 class SqlBuilderError extends Error
 {
-    public static function convertToException($message, $code, string $file, int $line): void
+    public static function convertToException($code, $message, string $file, int $line, array $context = []): void
     {
         // Error type and code defined.
         $details['error_type'] = error_get_last()['type'] ?? 'UNDEFINED';
@@ -14,12 +14,13 @@ class SqlBuilderError extends Error
         // Error file and line defined for debugging.
         $details['error_file'] = $file;
         $details['error_line'] = $line;
+        $details['error_context'] = $context;
 
         // Error backtrace defined for debugging.
         $details['backtrace'] = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
 
         // Throw the exception (SqlBuilderException).
-        throw new SqlBuilderException($message, $code, 500, $details);
+        throw new SqlBuilderException($message, $code, null, 500, $details);
     }
 }
 
