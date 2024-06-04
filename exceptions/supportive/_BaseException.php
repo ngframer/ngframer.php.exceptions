@@ -19,8 +19,12 @@ class _BaseException extends Exception
 
 
     // Constructor of the exception.
-    public function __construct($message, $code = 0, int $statusCode = 500, array $details = [])
+    public function __construct($message = null, $code = 0, int $statusCode = 500, array $details = [])
     {
+        // If any of the values are set, use it, else use default value.
+        $message = $message ?? $this->message;
+        $code = $code ?? $this->code;
+
         // Call the parent constructor for exception.
         parent::__construct($message, $code);
 
