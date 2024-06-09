@@ -2,6 +2,7 @@
 
 namespace NGFramer\NGFramerPHPExceptions\handlers;
 
+use app\config\ApplicationConfig;
 use NGFramer\NGFramerPHPExceptions\exceptions\supportive\_BaseException;
 use NGFramer\NGFramerPHPExceptions\handlers\supportive\SourceTrait;
 use Throwable;
@@ -37,7 +38,8 @@ class ApiExceptionHandler
         ];
 
         // If source is available, add it to the response.
-        if (APPMODE === 'development') {
+        $appMode = ApplicationConfig::get('appMode');
+        if ($appMode === 'development') {
             $response['source'] = $source;
             $response['previous'] = $previous;
         }
