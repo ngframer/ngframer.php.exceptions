@@ -15,7 +15,6 @@ abstract class _BaseException extends Exception
     // Properties of the exception.
     protected $message;
     protected $code;
-    protected ?Throwable $previous;
     protected int $statusCode;
     protected array $details;
 
@@ -26,7 +25,6 @@ abstract class _BaseException extends Exception
         // If any of the values are set, use it, else use default value.
         $message = $message ?? $this->message;
         $code = $code ?? $this->code;
-        $previous = $previous ?? $this->previous;
 
         // Call the parent constructor for exception.
         parent::__construct($message, $code, $previous);
@@ -34,6 +32,10 @@ abstract class _BaseException extends Exception
         // Set the status code and the details.
         $this->statusCode = $statusCode;
         $this->details = $details;
+        // If in case, the error type has not been defined.
+        if (empty($this->details) or !isset($this->details['errorType'])) {
+            $this->details['errorType'] = 'undefined';
+        }
     }
 
 
