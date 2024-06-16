@@ -24,22 +24,4 @@ abstract class _BaseError extends Error
 
     // ================================================================>
     // set_error_handler([NameError::class, 'convertToException']);
-
-
-    protected static function generateDetails(string $file, int $line, array $context = []): array
-    {
-        // Error type and code defined.
-        $details['error_type'] = error_get_last()['type'] ?? 'UNDEFINED';
-
-        // Error file and line defined for debugging.
-        $details['error_file'] = $file;
-        $details['error_line'] = $line;
-        $details['error_context'] = $context;
-
-        // Error backtrace defined for debugging.
-        $details['backtrace'] = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
-
-        // Set the error details in the class.
-        return $details;
-    }
 }
