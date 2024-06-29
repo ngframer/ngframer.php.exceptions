@@ -4,7 +4,7 @@ namespace NGFramer\NGFramerPHPExceptions\exceptions\supportive;
 
 trait StatusCodeTrait
 {
-    protected function getStatusCode(): int
+    public function getStatusCode(): int
     {
         return $this->statusCode;
     }
