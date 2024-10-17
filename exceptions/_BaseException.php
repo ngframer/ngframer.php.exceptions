@@ -7,22 +7,46 @@ use Throwable;
 
 abstract class _BaseException extends Exception
 {
-    // Traits to use in this class.
-    use StatusCodeTrait;
-    use DetailsTrait;
-
-
-    // Properties of the exception.
+    /**
+     * The message of the exception.
+     * @var string|null
+     */
     protected $message;
+
+
+    /**
+     * The code of the exception.
+     * @var int
+     */
     protected $code;
+
+
+    /**
+     * The status code of the exception.
+     * @var int
+     */
     protected int $statusCode;
+
+
+    /**
+     * The details of the exception.
+     * @var array
+     */
     protected array $details;
 
 
-    // Constructor of the exception.
-    public function __construct($message = null, $code = 0, ?Throwable $previous = null, int $statusCode = 500, array $details = [])
+    /**
+     * _BaseException constructor.
+     *
+     * @param $message
+     * @param int $code
+     * @param Throwable|null $previous
+     * @param int $statusCode
+     * @param array $details
+     */
+    public function __construct($message = null, int $code = 0, ?Throwable $previous = null, int $statusCode = 500, array $details = [])
     {
-        // If any of the values are set, use it, else use default value.
+        // If any of the values are set, use it, else use the default value.
         $message = $message ?? $this->message;
         $code = $code ?? $this->code;
 
@@ -39,5 +63,24 @@ abstract class _BaseException extends Exception
     }
 
 
-    // We have used traits for more functionality in the exceptions.
+    /**
+     * Function that returns the status code of the exception.
+     *
+     * @return array
+     */
+    public function getDetails(): array
+    {
+        return $this->details;
+    }
+
+
+    /**
+     * Function that returns the status code of the exception.
+     *
+     * @return int
+     */
+    public function getStatusCode(): int
+    {
+        return $this->statusCode;
+    }
 }
