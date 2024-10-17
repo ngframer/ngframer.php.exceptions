@@ -1,19 +1,29 @@
 <?php
 
-namespace NGFramer\NGFramerPHPExceptions\handlers\supportive;
+namespace NGFramer\NGFramerPHPExceptions\renderer\supportive;
 
 use app\config\ApplicationConfig;
-use NGFramer\NGFramerPHPExceptions\exceptions\supportive\_BaseException;
+use Exception;
+use NGFramer\NGFramerPHPExceptions\exceptions\_BaseException;
 use Throwable;
 
-abstract class _BaseHandler
+abstract class _BaseRenderer
 {
-    // Variable used across this and other extending classes to get the responses.
+    /**
+     * The final response (message) of the exception.
+     *
+     * @var array $response
+     */
     protected array $response;
 
 
-    // Handle the exception, handle function.
-    public function handle(Throwable $exception): void
+    /**
+     * Handle the exception and save the response to the class base.
+     *
+     * @param Throwable $exception
+     * @return void
+     */
+    public function render(Throwable $exception): void
     {
         // Get the statusCode and the details.
         $statusCode = ($exception instanceof _BaseException) ? $exception->getStatusCode() : 500;
@@ -36,14 +46,14 @@ abstract class _BaseHandler
         }
 
 
-        // Define the response to throw as method of error handling.
+        // Define the response to throw as a method of error handling.
         $response = [
             'success' => false,
             'statusCode' => $statusCode,
             'details' => [
-                // Error code is the 2nd parameter of Exception ($code = 0).
+                // The errorCode is the 2nd parameter of Exception ($code = 0).
                 'errorCode' => $exception->getCode(),
-                // Error type is defined by the user is string, defaults to .
+                // The ErrorType is defined by the user, defaults to string and with the value 'undefined'.
                 'errorType' => $details['errorType'] ?? 'undefined',
                 // Error message is the 1st parameter of Exception ($message = "").
                 'errorMessage' => $exception->getMessage()
@@ -62,5 +72,40 @@ abstract class _BaseHandler
 
         // Save the response to the class base.
         $this->response = $response;
+
+        // Log the error and the response.
+        $this->logError($exception, $response);
+    }
+
+
+    /**
+     * Function to log the exception and the response.
+     *
+     * @param Throwable $exception
+     * @param array $response
+     */
+    private function logError(Throwable $exception, array $response): void
+    {
+        // Form the log message.
+        $dateTime = date('Y-m-d H:i:s');
+        $errorMessage = $response['details']['errorMessage'];
+        $errorSource = $response['details']['errorSource'];
+
+        // Detailed log.
+        $response = json_encode($this->response, JSON_PRETTY_PRINT);
+        $exception = $exception->getTraceAsString();
+
+        // Location to log the error.
+        try{
+            $location = ApplicationConfig::init()->get('rootPath') . '/logs/errors.log';
+        } catch (Exception $exception) {
+            $location = 'errors.log';
+        }
+
+        // Log the error and the response.
+        error_log("[" . $dateTime . "] " . $errorMessage . " in " . $errorSource . PHP_EOL, 3, $location);
+        error_log("[" . $dateTime . "] " . "Response => " . $response . PHP_EOL, 3, $location);
+        error_log("[" . $dateTime . "] " . "Exception => " . $exception . PHP_EOL, 3, $location);
+        error_log(PHP_EOL);
     }
 }
