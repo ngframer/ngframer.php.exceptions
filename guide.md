@@ -16,20 +16,28 @@ Else, you can use the following code:
 ```php
 <?php
 
-namespace APP\DIRECTORY;
+namespace app\exceptions\factory;
+
+use Throwable;
+use Exception;
+use app\config\ApplicationConfig;
+use NGFramer\NGFramerPHPExceptions\renderer\supportive\_BaseRenderer;
 
 class RendererFactory
 {
     /**
-    * Function to handle exceptions globally.
-    */
-    public function globalHandler(Throwable $exception)
+     * Function to handle exceptions globally.
+     *
+     * @param Throwable $exception
+     * @throws Exception
+     */
+    public function globalHandler(Throwable $exception): void
     {
         // Get the AppMode from the config.
         // If you're not using ngframer.php, get config data your own way.
         // For ngframer.php, you can use the following code.
         $appMode = ApplicationConfig::get('appMode');
-        
+
         // Check if the appMode is development.
         // Applicable to if you're using ngframer.php or not.
         if ($appMode == 'development') {
@@ -41,32 +49,32 @@ class RendererFactory
             ini_set('display_startup_errors', 0);
             error_reporting(E_ALL);
         }
-    
+
         // Use this snippet of code to use your own renderer.
-        $renderer = $this->create();
+        // $renderer = $this->create();
         // Use this snippet of code to use the default renderer.
-        $renderer = NGFramer\NGFramerPHPExceptions\Renderer::create();
-        
+        $renderer = \NGFramer\NGFramerPHPExceptions\Render::create();
+
         // This will be applicable to both the default and custom renderer.
         $renderer->render($exception);
     }
 
     /**
-    * Function to register the exception handler.
-    */
-    public function register()
+     * Function to register the exception handler.
+     */
+    public function register(): void
     {
         set_error_handler([$this, 'convertToException']);
         set_exception_handler([$this, 'globalHandler']);
     }
-    
+
     /**
-    * Function to create a new renderer factory.
-    * Creates and returns an appropriate Exception renderer based on the environment.
-    *
-    * @returns _BaseRenderer
-    */
-    public static function create()
+     * Function to create a new renderer factory.
+     * Creates and returns an appropriate Exception renderer based on the environment.
+     *
+     * @returns _BaseRenderer
+     */
+    public static function create(): _BaseRenderer
     {
         // Check the environment and return the appropriate renderer.
         // Check if the environment is cli.
@@ -87,6 +95,9 @@ class RendererFactory
     }
 }
 ```
+
+Make changes to conditions as per your necessity.
+And change the return value to the renderer you have created.
 
 You can find the model for the ExceptionRender classes examples here:
 - [CLIExceptionRenderer](https://github.com/ngframer/ngframer.php.exceptions/renderer/CliExceptionRenderer.php)
