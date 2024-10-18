@@ -30,7 +30,7 @@ class HtmlExceptionRenderer extends _BaseRenderer
             <p>Code: {$this->response['details']['errorCode']}</p>
             <p>Type: {$this->response['details']['errorType']}</p>
             <p>Source: {$this->response['details']['errorSource']}</p>
-            <p>Trace: {$this->response['details']['errorTrace']}</p>
+            <p>Trace:" . json_encode($this->response['details']['errorTrace']) . "</p>
         </body>
         </html>";
 
