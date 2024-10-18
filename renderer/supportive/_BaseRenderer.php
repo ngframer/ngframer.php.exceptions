@@ -97,7 +97,7 @@ abstract class _BaseRenderer
 
         // Location to log the error.
         try{
-            $location = ApplicationConfig::init()->get('rootPath') . '/logs/errors.log';
+            $location = ApplicationConfig::get('root') . '/logs/errors.log';
         } catch (Exception $exception) {
             $location = 'errors.log';
         }
