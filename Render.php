@@ -2,7 +2,7 @@
 
 namespace NGFramer\NGFramerPHPExceptions;
 
-use NGFramer\NGFRamerPHP\config\ApplicationConfig;
+use app\config\ApplicationConfig;
 use NGFramer\NGFramerPHPExceptions\renderer\ApiExceptionRenderer;
 use NGFramer\NGFramerPHPExceptions\renderer\CliExceptionRenderer;
 use NGFramer\NGFramerPHPExceptions\renderer\HtmlExceptionRenderer;
