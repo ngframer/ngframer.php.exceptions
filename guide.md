@@ -21,6 +21,8 @@ namespace app\exceptions\factory;
 use Throwable;
 use Exception;
 use app\config\ApplicationConfig;
+use NGFramer\NGFramerPHPExceptions\Render;
+use NGFramer\NGFramerPHPExceptions\exceptions\_BaseError;
 use NGFramer\NGFramerPHPExceptions\renderer\supportive\_BaseRenderer;
 
 class RendererFactory
@@ -53,7 +55,7 @@ class RendererFactory
         // Use this snippet of code to use your own renderer.
         // $renderer = $this->create();
         // Use this snippet of code to use the default renderer.
-        $renderer = \NGFramer\NGFramerPHPExceptions\Render::create();
+        $renderer = Render::create();
 
         // This will be applicable to both the default and custom renderer.
         $renderer->render($exception);
@@ -64,7 +66,7 @@ class RendererFactory
      */
     public function register(): void
     {
-        set_error_handler([$this, 'convertToException']);
+        set_error_handler([(new _BaseError()), 'convertToException']);
         set_exception_handler([$this, 'globalHandler']);
     }
 
