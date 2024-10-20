@@ -79,9 +79,6 @@ abstract class _BaseRenderer
         if ($appMode === 'development') {
             $response['details']['errorSource'] = $errorSource;
             $response['details']['errorTrace'] = $errorTrace;
-            if (!empty($exception->getPrevious())) {
-                $response['previous'] = $exception->getPrevious();
-            }
         }
 
         // Save the response to the class base.
