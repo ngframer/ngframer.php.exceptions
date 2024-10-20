@@ -36,6 +36,20 @@ abstract class _BaseRenderer
         // Operations on the traces of error to show as string.
         $errorTrace = [];
 
+        // Set the exception in a variable to loop through the traces.
+        // The main exception is being used in the end for the error message and code.
+        $exceptionTemp = $exception;
+
+        // Loop to get more trace of previous exceptions.
+        while ($exceptionTemp->getPrevious() !== null) {
+            $exceptionTemp = $exceptionTemp->getPrevious();
+            $errorTrace[] = $exceptionTemp->getFile() . $joinString . $exceptionTemp->getLine();
+        }
+
+        // Reverse the array to get the correct order of the traces.
+        $errorTrace = array_reverse($errorTrace);
+
+        // Loop through the traces of the error.
         foreach ($exception->getTrace() as $indivTrace) {
             $file = $indivTrace['file'] ?? 'UnknownFile';
             $line = $indivTrace['line'] ?? 'UnknownLine';
@@ -96,16 +110,14 @@ abstract class _BaseRenderer
         $exception = $exception->getTraceAsString();
 
         // Location to log the error.
-        try{
+        try {
             $location = ApplicationConfig::get('root') . '/logs/errors.log';
         } catch (Exception $exception) {
             $location = 'errors.log';
         }
 
         // Log the error and the response.
-        error_log("[" . $dateTime . "] " . $errorMessage . " in " . $errorSource . PHP_EOL, 3, $location);
         error_log("[" . $dateTime . "] " . "Response => " . $response . PHP_EOL, 3, $location);
-        error_log("[" . $dateTime . "] " . "Exception => " . $exception . PHP_EOL, 3, $location);
         error_log(PHP_EOL);
     }
 }
