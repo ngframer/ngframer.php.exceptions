@@ -2,10 +2,10 @@
 
 namespace NGFramer\NGFramerPHPExceptions\renderer\supportive;
 
-use app\config\ApplicationConfig;
-use Exception;
-use NGFramer\NGFramerPHPExceptions\exceptions\_BaseException;
 use Throwable;
+use Exception;
+use app\config\ApplicationConfig;
+use NGFramer\NGFramerPHPExceptions\exceptions\_BaseException;
 
 abstract class _BaseRenderer
 {
@@ -38,27 +38,38 @@ abstract class _BaseRenderer
 
         // Set the exception in a variable to loop through the traces.
         // The main exception is being used in the end for the error message and code.
-        $exceptionTemp = $exception;
+        $exceptionTemp = $exception->getPrevious();
 
         // Loop to get more trace of previous exceptions.
-        while ($exceptionTemp->getPrevious() !== null) {
+        while ($exceptionTemp !== null) {
+            // Get the first trace of the exception.
+            $trace = $exceptionTemp->getTrace()[0];
+            // Now find where the error is occuring.
+            $stringTrace = $this->buildTraceString($trace);
+            // Check if the trace already is in the errorTrace, else add it.
+            if (!in_array($stringTrace, $errorTrace)) {
+                $errorTrace[] = $stringTrace;
+            }
+            // Move to the next exception.
             $exceptionTemp = $exceptionTemp->getPrevious();
-            $errorTrace[] = $exceptionTemp->getFile() . $joinString . $exceptionTemp->getLine();
         }
 
         // Reverse the array to get the correct order of the traces.
         $errorTrace = array_reverse($errorTrace);
 
+
+        // Start a counter to find the first trace.
+        $exceptionTraceCounter = 0;
         // Loop through the traces of the error.
         foreach ($exception->getTrace() as $indivTrace) {
-            $file = $indivTrace['file'] ?? 'UnknownFile';
-            $line = $indivTrace['line'] ?? 'UnknownLine';
-            $function = $indivTrace['function'] ?? 'UnknownFunc';
-            $args = isset($indivTrace['args']) ? json_encode($indivTrace['args']) : '[]';
-            // Build the log from the data captured above.
-            $errorTrace[] = $file . $joinString . $line . $joinString . $function . $joinString . $args;
+            // Check the counter to find the first trace.
+            if ($exceptionTraceCounter === 0) {
+                $errorTrace[] = $errorSource;
+                $exceptionTraceCounter = 1;
+            } else {
+                $errorTrace[] = $this->buildTraceString($indivTrace);
+            }
         }
-
 
         // Define the response to throw as a method of error handling.
         $response = [
@@ -81,40 +92,33 @@ abstract class _BaseRenderer
             $response['details']['errorTrace'] = $errorTrace;
         }
 
-        // Save the response to the class base.
-        $this->response = $response;
-
         // Log the error and the response.
-        $this->logError($exception, $response);
+        $this->logError($response);
+    }
+
+
+    private function buildTraceString(array $trace)
+    {
+        // Use the following joining string.
+        $joinString = " :";
+        // Fetch the following details.
+        $file = $trace['file'] ?? 'UnknownFile';
+        $line = $trace['line'] ?? 'UnknownLine';
+        $function = $trace['function'] ?? 'UnknownFunc';
+        $args = isset($trace['args']) ? json_encode($trace['args']) : '[]';
+        // Build and return the log from the data captured above.
+        return $file . $joinString . $line . $joinString . $function . $joinString . $args;
     }
 
 
     /**
      * Function to log the exception and the response.
      *
-     * @param Throwable $exception
      * @param array $response
      */
-    private function logError(Throwable $exception, array $response): void
+    private function logError(array $response): void
     {
-        // Form the log message.
-        $dateTime = date('Y-m-d H:i:s');
-        $errorMessage = $response['details']['errorMessage'];
-        $errorSource = $response['details']['errorSource'];
-
-        // Detailed log.
-        $response = json_encode($this->response, JSON_PRETTY_PRINT);
-        $exception = $exception->getTraceAsString();
-
-        // Location to log the error.
-        try {
-            $location = ApplicationConfig::get('root') . '/logs/errors.log';
-        } catch (Exception $exception) {
-            $location = 'errors.log';
-        }
-
         // Log the error and the response.
-        error_log("[" . $dateTime . "] " . "Response => " . $response . PHP_EOL, 3, $location);
-        error_log(PHP_EOL);
+        error_log('Response => ' . $response . PHP_EOL);
     }
 }
