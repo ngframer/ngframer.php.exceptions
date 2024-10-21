@@ -3,9 +3,9 @@
 namespace NGFramer\NGFramerPHPExceptions\renderer\supportive;
 
 use Throwable;
-use Exception;
 use app\config\ApplicationConfig;
 use NGFramer\NGFramerPHPExceptions\exceptions\_BaseException;
+use Exception;
 
 abstract class _BaseRenderer
 {
@@ -94,6 +94,10 @@ abstract class _BaseRenderer
 
         // Log the error and the response.
         $this->logError($response);
+
+        // Set the response to the class base.
+        // Need this for other renderer classes to use.
+        $this->response = $response;
     }
 
 
@@ -119,6 +123,6 @@ abstract class _BaseRenderer
     private function logError(array $response): void
     {
         // Log the error and the response.
-        error_log('Response => ' . $response . PHP_EOL);
+        error_log('Response => ' . json_encode($response, JSON_PRETTY_PRINT) . PHP_EOL);
     }
 }
