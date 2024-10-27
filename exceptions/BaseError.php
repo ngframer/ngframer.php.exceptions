@@ -4,7 +4,7 @@ namespace NGFramer\NGFramerPHPExceptions\exceptions;
 
 use Error;
 
-class _BaseError extends Error
+class BaseError extends Error
 {
     /**
      * Function that converts the error to exception.
