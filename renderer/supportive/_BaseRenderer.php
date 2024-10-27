@@ -28,6 +28,7 @@ abstract class _BaseRenderer
         // Get the statusCode and the details.
         $statusCode = ($exception instanceof _BaseException) ? $exception->getStatusCode() : 500;
         $details = ($exception instanceof _BaseException) ? $exception->getDetails() : [];
+        $label = ($exception instanceof _BaseException) ? $exception->getLabel() : $details['errorLabel'] ?? 'undefined';
 
         // Operations on the file and line of error to show for errorSource as string.
         $joinString = " :";
@@ -44,7 +45,7 @@ abstract class _BaseRenderer
         while ($exceptionTemp !== null) {
             // Get the first trace of the exception.
             $trace = $exceptionTemp->getTrace()[0];
-            // Now find where the error is occuring.
+            // Now find where the error is occurring.
             $stringTrace = $this->buildTraceString($trace);
             // Check if the trace already is in the errorTrace, else add it.
             if (!in_array($stringTrace, $errorTrace)) {
@@ -78,8 +79,8 @@ abstract class _BaseRenderer
             'details' => [
                 // The errorCode is the 2nd parameter of Exception ($code = 0).
                 'errorCode' => $exception->getCode(),
-                // The ErrorType is defined by the user, defaults to string and with the value 'undefined'.
-                'errorType' => $details['errorType'] ?? 'undefined',
+                // The ErrorLabel is defined by the user, defaults to string and with the value 'undefined'.
+                'errorLabel' => $label,
                 // Error message is the 1st parameter of Exception ($message = "").
                 'errorMessage' => $exception->getMessage()
             ]
@@ -101,7 +102,7 @@ abstract class _BaseRenderer
     }
 
 
-    private function buildTraceString(array $trace)
+    private function buildTraceString(array $trace): string
     {
         // Use the following joining string.
         $joinString = " :";

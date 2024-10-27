@@ -19,11 +19,11 @@ class _BaseError extends Error
     public function convertToException($code, $message, string $file, int $line, array $context = []): void
     {
         // Get the type of error.
-        $type = $this->getLabel($code);
+        $label = $this->getLabel($code);
 
         // Generate the error details.
         $details['errorCode'] = $code;
-        $details['errorLabel'] = $label;
+        $details['errorLabel'] = $this->getLabel($code);
         $details['errorMessage'] = $message;
         $details['errorSource'] = $file . ':' . $line;
 

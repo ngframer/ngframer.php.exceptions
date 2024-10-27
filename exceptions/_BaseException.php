@@ -22,6 +22,13 @@ abstract class _BaseException extends Exception
 
 
     /**
+     * The label of the exception.
+     * @var string
+     */
+    protected string $label;
+
+
+    /**
      * The status code of the exception.
      * @var int
      */
@@ -40,16 +47,21 @@ abstract class _BaseException extends Exception
      *
      * @param string $message
      * @param int $code
-     * @param int $label
+     * @param string $label
      * @param Throwable|null $previous
      * @param int $statusCode
      * @param array $details
      */
-    public function __construct(string $message = '', int $code = 0, string $label = '', ?Throwable $previous = null, int $statusCode = 500, array $details = [])
+    public function __construct($message = '', $code = 0, string $label = '', ?Throwable $previous = null, int $statusCode = 500, array $details = [])
     {
         // If any of the values are set, use it, else use the default value.
         $message = $message ?? $this->message;
         $code = $code ?? $this->code;
+
+        // Update the values to the class scope.
+        $this->message = $message;
+        $this->code = $code;
+        $this->label = $label;
 
         // Call the parent constructor for exception.
         parent::__construct($message, $code, $previous);
@@ -57,7 +69,8 @@ abstract class _BaseException extends Exception
         // Set the status code and the details.
         $this->statusCode = $statusCode;
         $this->details = $details;
-        // If in case, the error type has not been defined.
+
+        // If in case, the error label has not been defined.
         if (empty($this->details) or !isset($this->details['errorLabel'])) {
             if (!empty($label)) {
                 $this->details['errorLabel'] = $label;
@@ -87,5 +100,15 @@ abstract class _BaseException extends Exception
     public function getStatusCode(): int
     {
         return $this->statusCode;
+    }
+
+    /**
+     * Function that returns the label of the exception.
+     *
+     * @return string
+     */
+    public function getLabel(): string
+    {
+        return $this->label;
     }
 }
