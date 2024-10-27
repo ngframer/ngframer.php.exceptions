@@ -19,16 +19,16 @@ class _BaseError extends Error
     public function convertToException($code, $message, string $file, int $line, array $context = []): void
     {
         // Get the type of error.
-        $type = $this->getType($code);
+        $type = $this->getLabel($code);
 
         // Generate the error details.
         $details['errorCode'] = $code;
-        $details['errorType'] = $type;
+        $details['errorLabel'] = $label;
         $details['errorMessage'] = $message;
         $details['errorSource'] = $file . ':' . $line;
 
         // Now prepare and throw an exception.
-        Throw new ErrorException($message, $code, null, 500, $details);
+        Throw new ErrorException($message, $code, $label, null, 500, $details);
     }
 
 
@@ -38,41 +38,41 @@ class _BaseError extends Error
      * @param $code
      * @return string
      */
-    private function getType($code): string
+    private function getLabel($code): string
     {
         switch ($code) {
             case E_ERROR:
-                return 'E_ERROR';
+                return 'error_error';
             case E_WARNING:
-                return 'E_WARNING';
+                return 'error_warning';
             case E_PARSE:
-                return 'E_PARSE';
+                return 'error_parse';
             case E_NOTICE:
-                return 'E_NOTICE';
+                return 'error_notice';
             case E_CORE_ERROR:
-                return 'E_CORE_ERROR';
+                return 'error_core_error';
             case E_CORE_WARNING:
-                return 'E_CORE_WARNING';
+                return 'error_core_warning';
             case E_COMPILE_ERROR:
-                return 'E_COMPILE_ERROR';
+                return 'error_compile_error';
             case E_COMPILE_WARNING:
-                return 'E_COMPILE_WARNING';
+                return 'error_compile_warning';
             case E_USER_ERROR:
-                return 'E_USER_ERROR';
+                return 'error_user_error';
             case E_USER_WARNING:
-                return 'E_USER_WARNING';
+                return 'error_user_warning';
             case E_USER_NOTICE:
-                return 'E_USER_NOTICE';
+                return 'error_user_notice';
             case E_STRICT:
-                return 'E_STRICT';
+                return 'error_strict';
             case E_RECOVERABLE_ERROR:
-                return 'E_RECOVERABLE_ERROR';
+                return 'error_recorable';
             case E_DEPRECATED:
-                return 'E_DEPRECATED';
+                return 'error_deprecated';
             case E_USER_DEPRECATED:
-                return 'E_USER_DEPRECATED';
+                return 'error_user_deprecated';
             default:
-                return 'UNKNOWN';
+                return 'error_unknown';
         }
     }
 }

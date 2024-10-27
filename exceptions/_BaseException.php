@@ -38,13 +38,14 @@ abstract class _BaseException extends Exception
     /**
      * _BaseException constructor.
      *
-     * @param $message
+     * @param string $message
      * @param int $code
+     * @param int $label
      * @param Throwable|null $previous
      * @param int $statusCode
      * @param array $details
      */
-    public function __construct($message = null, int $code = 0, ?Throwable $previous = null, int $statusCode = 500, array $details = [])
+    public function __construct(string $message = '', int $code = 0, string $label = '' ?Throwable $previous = null, int $statusCode = 500, array $details = [])
     {
         // If any of the values are set, use it, else use the default value.
         $message = $message ?? $this->message;
@@ -57,8 +58,12 @@ abstract class _BaseException extends Exception
         $this->statusCode = $statusCode;
         $this->details = $details;
         // If in case, the error type has not been defined.
-        if (empty($this->details) or !isset($this->details['errorType'])) {
-            $this->details['errorType'] = 'undefined';
+        if (empty($this->details) or !isset($this->details['errorLabel']) {
+            if (!empty($label)) {
+                $this->details['errorLabel'] = $label;
+            } else {
+                $this->details['errorLabel'] = 'undefined';
+            }
         }
     }
 
