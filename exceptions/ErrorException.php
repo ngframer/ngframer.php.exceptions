@@ -4,7 +4,7 @@ namespace NGFramer\NGFramerPHPExceptions\exceptions;
 
 use Throwable;
 
-class ErrorException extends AppException
+class ErrorException extends BaseException
 {
     public function __construct(string $message, int $code = 0, string $label = '', ?Throwable $previous = null, int $statusCode = 500, array $details = [])
     {
