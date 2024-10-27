@@ -4,7 +4,7 @@ namespace NGFramer\NGFramerPHPExceptions\renderer\supportive;
 
 use Throwable;
 use app\config\ApplicationConfig;
-use NGFramer\NGFramerPHPExceptions\exceptions\_BaseException;
+use NGFramer\NGFramerPHPExceptions\exceptions\AppException;
 use Exception;
 
 abstract class _BaseRenderer
@@ -26,9 +26,9 @@ abstract class _BaseRenderer
     public function render(Throwable $exception): void
     {
         // Get the statusCode and the details.
-        $statusCode = ($exception instanceof _BaseException) ? $exception->getStatusCode() : 500;
-        $details = ($exception instanceof _BaseException) ? $exception->getDetails() : [];
-        $label = ($exception instanceof _BaseException) ? $exception->getLabel() : $details['errorLabel'] ?? 'undefined';
+        $statusCode = ($exception instanceof AppException) ? $exception->getStatusCode() : 500;
+        $details = ($exception instanceof AppException) ? $exception->getDetails() : [];
+        $label = ($exception instanceof AppException) ? $exception->getLabel() : $details['errorLabel'] ?? 'undefined';
 
         // Operations on the file and line of error to show for errorSource as string.
         $joinString = " :";

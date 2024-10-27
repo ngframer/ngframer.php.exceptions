@@ -5,7 +5,7 @@ namespace NGFramer\NGFramerPHPExceptions\exceptions;
 use Exception;
 use Throwable;
 
-abstract class _BaseException extends Exception
+abstract class AppException extends Exception
 {
     /**
      * The message of the exception.
