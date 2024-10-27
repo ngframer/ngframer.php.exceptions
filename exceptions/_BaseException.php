@@ -58,7 +58,7 @@ abstract class _BaseException extends Exception
         $this->statusCode = $statusCode;
         $this->details = $details;
         // If in case, the error type has not been defined.
-        if (empty($this->details) or !isset($this->details['errorLabel']) {
+        if (empty($this->details) or !isset($this->details['errorLabel'])) {
             if (!empty($label)) {
                 $this->details['errorLabel'] = $label;
             } else {
