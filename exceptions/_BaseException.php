@@ -45,7 +45,7 @@ abstract class _BaseException extends Exception
      * @param int $statusCode
      * @param array $details
      */
-    public function __construct(string $message = '', int $code = 0, string $label = '' ?Throwable $previous = null, int $statusCode = 500, array $details = [])
+    public function __construct(string $message = '', int $code = 0, string $label = '', ?Throwable $previous = null, int $statusCode = 500, array $details = [])
     {
         // If any of the values are set, use it, else use the default value.
         $message = $message ?? $this->message;
