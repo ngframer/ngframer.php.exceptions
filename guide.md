@@ -22,8 +22,8 @@ use Throwable;
 use Exception;
 use app\config\ApplicationConfig;
 use NGFramer\NGFramerPHPExceptions\Render;
-use NGFramer\NGFramerPHPExceptions\exceptions\BaseError;
-use NGFramer\NGFramerPHPExceptions\renderer\supportive\_BaseRenderer;
+use NGFramer\NGFramerPHPExceptions\Exceptions\BaseError;
+use NGFramer\NGFramerPHPExceptions\Renderer\Supportive\BaseRenderer;
 
 class RendererFactory
 {
@@ -74,9 +74,9 @@ class RendererFactory
      * Function to create a new renderer factory.
      * Creates and returns an appropriate Exception renderer based on the environment.
      *
-     * @returns _BaseRenderer
+     * @returns BaseRenderer
      */
-    public static function create(): _BaseRenderer
+    public static function create(): BaseRenderer
     {
         // Check the environment and return the appropriate renderer.
         // Check if the environment is cli.

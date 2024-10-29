@@ -1,11 +1,11 @@
 <?php
 
-namespace NGFramer\NGFramerPHPExceptions\renderer;
+namespace NGFramer\NGFramerPHPExceptions\Renderer;
 
-use NGFramer\NGFramerPHPExceptions\renderer\supportive\_BaseRenderer;
+use NGFramer\NGFramerPHPExceptions\Renderer\Supportive\BaseRenderer;
 use Throwable;
 
-class HtmlExceptionRenderer extends _BaseRenderer
+class HtmlExceptionRenderer extends BaseRenderer
 {
     public function render(Throwable $exception): void
     {

@@ -1,13 +1,12 @@
 <?php
 
-namespace NGFramer\NGFramerPHPExceptions\renderer\supportive;
+namespace NGFramer\NGFramerPHPExceptions\Renderer\Supportive;
 
 use Throwable;
-use app\config\ApplicationConfig;
-use NGFramer\NGFramerPHPExceptions\exceptions\BaseException;
-use Exception;
+use App\Config\ApplicationConfig;
+use NGFramer\NGFramerPHPExceptions\Exceptions\BaseException;
 
-abstract class _BaseRenderer
+abstract class BaseRenderer
 {
     /**
      * The final response (message) of the exception.

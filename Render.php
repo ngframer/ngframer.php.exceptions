@@ -2,18 +2,18 @@
 
 namespace NGFramer\NGFramerPHPExceptions;
 
-use app\config\ApplicationConfig;
-use NGFramer\NGFramerPHPExceptions\renderer\ApiExceptionRenderer;
-use NGFramer\NGFramerPHPExceptions\renderer\CliExceptionRenderer;
-use NGFramer\NGFramerPHPExceptions\renderer\HtmlExceptionRenderer;
-use NGFramer\NGFramerPHPExceptions\renderer\supportive\_BaseRenderer;
+use App\Config\ApplicationConfig;
+use NGFramer\NGFramerPHPExceptions\Renderer\ApiExceptionRenderer;
+use NGFramer\NGFramerPHPExceptions\Renderer\CliExceptionRenderer;
+use NGFramer\NGFramerPHPExceptions\Renderer\HtmlExceptionRenderer;
+use NGFramer\NGFramerPHPExceptions\Renderer\Supportive\BaseRenderer;
 
 class Render
 {
     /**
      * Creates and returns an appropriate Exception renderer based on the environment.
      *
-     * @returns _BaseRenderer
+     * @returns BaseRenderer
      */
     public static function create()
     {
