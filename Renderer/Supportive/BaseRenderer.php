@@ -31,7 +31,7 @@ abstract class BaseRenderer
 
         // Operations on the file and line of error to show for errorSource as string.
         $joinString = " :";
-        $errorSource = $exception->getFile() . $joinString . $exception->getLine();
+        $errorSource = isset($details['errorSource']) ? $details['errorSource'] : $exception->getFile() . $joinString . $exception->getLine();
 
         // Operations on the traces of error to show as string.
         $errorTrace = [];
@@ -67,7 +67,7 @@ abstract class BaseRenderer
                 $errorTrace[] = $errorSource;
                 $exceptionTraceCounter = 1;
             } else {
-                $errorTrace[] = $this->buildTraceString($indivTrace);
+                $errorTrace[] = "<br>" . $this->buildTraceString($indivTrace);
             }
         }
 
